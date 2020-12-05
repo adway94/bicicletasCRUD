@@ -9,6 +9,14 @@ L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
     accessToken: 'your.mapbox.access.token'
 }).addTo(map);
 
-var marker = [L.marker([-31.7325966,-60.5298745]).addTo(map),
-            L.marker([-31.7326286,-60.5294775]).addTo(map), 
-            L.marker([-31.735731,-60.5320523]).addTo(map)]
+
+$.ajax({
+    dataType: 'json',
+    url: 'api/bicicletas',
+    success: (result)=> {
+        console.log(result)
+        result.bicicletas.forEach((bici)=>{
+            L.marker(bici.ubicacion, {title: bici.id}).addTo(map) 
+        })
+    }
+})
