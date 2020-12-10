@@ -31,11 +31,13 @@ Bicicleta.removeById = (aBiciId) => {
     }
 }
 
+/*
 var a = new Bicicleta(1, "Rojo", "Urbano", [-31.731835,-60.5368057]);
 var b = new Bicicleta(2, "Azul", "Montaña", [-31.730211,-60.5341283]);
 
 Bicicleta.add(a)
 Bicicleta.add(b)
+*/
 
 module.exports = Bicicleta;
 
