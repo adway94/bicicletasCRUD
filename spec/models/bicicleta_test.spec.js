@@ -1,4 +1,41 @@
 const Bicicleta = require("../../models/bicicleta")
+const mongoose = require('mongoose')
+
+describe('Testing Bicicletas', function(){
+    beforeEach(function(done){
+        var mongoDB = 'mongodb://localhost/testdb'
+        mongoose.connect(mongoDB, {useNewUrlParser: true})
+
+        const db = mongoose.connection
+        db.on('error', console.error.bind(console, 'conection error'))
+        db.once('open', function(){
+            console.log('We are connected to test database!')
+            done()
+        })
+    })
+    afterEach(function(done){
+        Bicicleta.deleteMany({}, function(err, succes){
+            if (err) console.log(err)
+            done()
+        })
+    })
+
+    describe('Bicicleta.createInstance',() => {
+        it('crea una instancia de Bicicleta', () => {
+            let bici = Bicicleta.createInstance(1, 'verde', 'urbana', [-34.5, -36.3])
+
+            expect(bici.code).toBe(1)
+            expect(bici.color).toBe("verde")
+            expect(bici.modelo).toBe("urbana")
+            expect(bici.ubicacion[0]).toBe(-34.5)
+            expect(bici.ubicacion[1]).toBe(-36.3)
+        })
+    })
+
+})
+
+
+/*
 
 beforeEach(() => { Bicicleta.allBicis = [] })
 
@@ -37,3 +74,5 @@ describe('Bicicleta.findById', () => {
 
     })
 })
+
+*/

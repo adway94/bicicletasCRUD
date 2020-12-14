@@ -1,43 +1,39 @@
-var Bicicleta = function(id, color, modelo, ubicacion){
-    this.id = id
-    this.color = color
-    this.modelo = modelo
-    this.ubicacion = ubicacion
+const mongoose = require('mongoose')
+const Schema = mongoose.Schema
+
+
+var bicicletaSchema = new Schema({
+    code: Number,
+    color: String,
+    modelo: String,
+    ubicacion: {
+        type: [Number], index: {type: '2dsphere', sparse: true}
+    }
+})
+
+bicicletaSchema.static.createInstance = function(code, color, modelo, ubicacion){
+    return new this({
+        code: code,
+        color: color,
+        modelo: modelo,
+        ubicacion: ubicacion
+    })
+}
+
+bicicletaSchema.methods.toString = function(){
+    return 'code: ' + this.code + ' | color: ' + this.color
 }
 
 Bicicleta.prototype.toString = function(){
     return "id: " + this.id + " |Color: " + this.color;
 }
 
-Bicicleta.allBicis = [];
-Bicicleta.add = (aBici) => {
-    Bicicleta.allBicis.push(aBici);
+bicicletaSchema.statics.allBicis = function(cb){
+    return this.find({}, cb)
 }
 
-Bicicleta.findById =(aBiciId) =>{
-    let aBici = Bicicleta.allBicis.find(x => x.id == aBiciId)
-    if (aBici)
-        return aBici
-    else 
-        throw new Error (`No existe una bicicleta con el id ${aBici}`)
+bicicletaSchema.statics.add = function(aBici, cb){
+    this.create(aBici, cb)
 }
 
-Bicicleta.removeById = (aBiciId) => {
-    for (let i = 0; i < Bicicleta.allBicis.length; i++) {
-        if(Bicicleta.allBicis[i].id == aBiciId){
-            Bicicleta.allBicis.splice(i,1)
-            break
-        }
-    }
-}
-
-/*
-var a = new Bicicleta(1, "Rojo", "Urbano", [-31.731835,-60.5368057]);
-var b = new Bicicleta(2, "Azul", "Montaña", [-31.730211,-60.5341283]);
-
-Bicicleta.add(a)
-Bicicleta.add(b)
-*/
-
-module.exports = Bicicleta;
-
+module.exports = mongoose.model('Bicicleta', bicicletaSchema)
