@@ -24,10 +24,6 @@ bicicletaSchema.methods.toString = function(){
     return 'code: ' + this.code + ' | color: ' + this.color
 }
 
-Bicicleta.prototype.toString = function(){
-    return "id: " + this.id + " |Color: " + this.color;
-}
-
 bicicletaSchema.statics.allBicis = function(cb){
     return this.find({}, cb)
 }

@@ -1,9 +1,9 @@
-const Bicicleta = require("../../models/bicicleta")
+const Bicicleta = require('../../models/bicicleta')
 const mongoose = require('mongoose')
 
-describe('Testing Bicicletas', function(){
+describe('Testing Bicicleta', function(){
     beforeEach(function(done){
-        var mongoDB = 'mongodb://localhost/testdb'
+        const mongoDB = 'mongodb://localhost/testdb'
         mongoose.connect(mongoDB, {useNewUrlParser: true})
 
         const db = mongoose.connection
@@ -25,8 +25,8 @@ describe('Testing Bicicletas', function(){
             let bici = Bicicleta.createInstance(1, 'verde', 'urbana', [-34.5, -36.3])
 
             expect(bici.code).toBe(1)
-            expect(bici.color).toBe("verde")
-            expect(bici.modelo).toBe("urbana")
+            expect(bici.color).toBe('verde')
+            expect(bici.modelo).toBe('urbana')
             expect(bici.ubicacion[0]).toBe(-34.5)
             expect(bici.ubicacion[1]).toBe(-36.3)
         })
